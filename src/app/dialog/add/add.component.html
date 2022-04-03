@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="test">
+    <legend>Rechnung hinzufügen</legend>
+    <form [formGroup]="invoiceForm" (ngSubmit)="submit">
+
+      <div class="form">
+        <mat-form-field color="accent">
+          <input matInput #input class="form-control" formControlName="title" placeholder="Titel" id="title"
+            name="title" required>
+          <mat-error></mat-error>
+        </mat-form-field>
+      </div>
+
+      <!--Textarea for demo purposes-->
+      <div class="form">
+        <mat-form-field color="accent">
+          <mat-label>Wähle Kategorie</mat-label>
+          <mat-select [(ngModel)]="selectedValue" formControlName="categorie" id="categorie" name="category" required>
+            <mat-option *ngFor="let category of categories" [value]="category.value">
+              {{category.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!--Contains mat-hint for characters count and has maxLengt set-->
+
+      <div class="form">
+        <mat-form-field color="accent" appearance="fill">
+          <input matInput [matDatepicker]="picker" class="form-control" formControlName="date" placeholder="Datum" id="date"
+          name="date" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field color="accent">
+          <input matInput placeholder="Betrag" formControlName="amount" id="id" name="amount" required>
+        </mat-form-field>
+      </div>
+
+
+      <div mat-dialog-actions>
+        <button mat-button [type]="submit" (click)="confirmAdd()">Save</button>
+        <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="container">
+    <h3 mat-dialog-title>Bearbeiten</h3>
+    <form [formGroup]="invoiceForm" (ngSubmit)="submit">
+        <div class="form">
+            <mat-form-field color="accent">
+                <input matInput #inputstate class="form-control" formControlName="title" placeholder="Titel" id="title"
+                    name="title" required>
+                <mat-error></mat-error>
+                <mat-hint align="end">{{inputstate.value?.length || 0}}/20</mat-hint>
+            </mat-form-field>
+        </div>
+
+        <div class="form">
+            <mat-form-field color="accent">
+              <mat-label>Kategorie</mat-label>
+              <mat-select formControlName="categorie" id="categorie" name="categorie" required>
+                <mat-option *ngFor="let categorie of categories" [value]="categorie.value">
+                  {{categorie.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+
+          <div class="form">
+            <mat-form-field color="accent" appearance="fill">
+              <input matInput [matDatepicker]="picker" class="form-control" formControlName="date" placeholder="Datum" id="date"
+              name="date" required>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+
+        <div class="form">
+            <mat-form-field color="accent">
+                <input matInput class="form-control" formControlName="amount" placeholder="Betrag in €" id="amount"
+                    name="amount" maxlength="10" required>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-actions>
+            <button  mat-button [mat-dialog-close]="1" (click)="stopEdit(data._id)">Speichern</button>
+            <button mat-button (click)="onNoClick()" tabindex="-1">Zurück</button>
+          </div>
+    </form>
+</div>
