@@ -98,7 +98,12 @@ delete(_id: string):void {
 
 updateIncoming(_id:string, data:any):void {
   this.http.put(`${environment.apiUrl}/api/v1/invoice/${_id}`, data).subscribe(data => {
-    }
+    },
+            error: error => {
+                this.errorMessage = error.message;
+                console.error('There was an error!', error);
+            }
+        });
   );
 }
 }
