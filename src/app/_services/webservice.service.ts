@@ -91,21 +91,19 @@ public delteInvoices(id: string) {
 
 delete(_id: string):void {
   this.http.delete(`${environment.apiUrl}/api/v1/invoice/${_id}`).subscribe(data => {
-    console.log(data['']);
     console.log('successfully deleted')
     },
     (err: HttpErrorResponse) => {
-    console.log('Error occurred. Details: ' + err.name + ' ' + err.message, 8000);
+    console.log('Error occurred. Details: '  + err.message, 8000);
     }
   );
 }
 
 updateIncoming(_id:string, data:any):void {
   this.http.put(`${environment.apiUrl}/api/v1/invoice/${_id}`, data).subscribe(data => {
-    console.log(data['']);
     },
     (err: HttpErrorResponse) => {
-    console.log('Error occurred. Details: ' + err.name + ' ' + err.message, 8000);
+    console.log('Error occurred. Details: '  + err.message, 8000);
     }
   );
 }
