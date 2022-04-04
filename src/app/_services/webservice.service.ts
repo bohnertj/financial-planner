@@ -101,7 +101,7 @@ delete(_id: string):void {
 }
 
 updateIncoming(_id:string, data:any):void {
-  this.http.patch(`${environment.apiUrl}/api/v1/invoice/${_id}`, data).subscribe(data => {
+  this.http.put(`${environment.apiUrl}/api/v1/invoice/${_id}`, data).subscribe(data => {
     console.log(data['']);
     },
     (err: HttpErrorResponse) => {
