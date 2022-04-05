@@ -130,30 +130,22 @@ export class WebserviceService {
       })
   }
 
-<<<<<<< HEAD
   public getSalariesByMonth() {
     const headerDict = {
       'username': this.user.username
-=======
-delete(_id: string):void {
-  this.http.delete(`${environment.apiUrl}/api/v1/invoice/${_id}`).subscribe(data => {
-    console.log('successfully deleted')
->>>>>>> fc9587e844aa3d96baa7cd412ff274c732922fe9
     }
 
-<<<<<<< HEAD
     const requestOptions = {
       headers: new Headers(headerDict),
     };
 
     console.log('Username' + this.user.username);
-    return fetch(`${environment.apiUrl}/api/v1/salary/salarybydate`, requestOptions)
+    return fetch(`${environment.apiUrl}/api/v1/invoice/invoicebydate`, requestOptions)
       .then(res => res.json())
       .then(res => {
         return res;
       })
   }
-
 
   public delteInvoices(id: string) {
 
@@ -209,9 +201,5 @@ delete(_id: string):void {
   }
 
 }
-=======
-updateIncoming(_id:string, data:any):void {
-  this.http.put(`${environment.apiUrl}/api/v1/invoice/${_id}`, data);
-}
-}
->>>>>>> fc9587e844aa3d96baa7cd412ff274c732922fe9
+
+
