@@ -4,7 +4,7 @@ import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms'
 import { WebserviceService } from '@app/_services/webservice.service';
 import { HttpClient } from "@angular/common/http";
 import { environment } from '@environments/environment';
-import { Invoice } from '@app/invoice';
+import { Salary } from '@app/salary';
 
 
 interface Category {
@@ -16,8 +16,8 @@ interface Category {
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.css']
 })
-export class EditComponent implements OnInit {
-  invoiceForm: FormGroup;
+export class EditSalaryComponent implements OnInit {
+  salaryForm: FormGroup;
   add = true;
   submitted = true;
   message = false;
@@ -38,15 +38,15 @@ export class EditComponent implements OnInit {
     { value: 'Sonstiges', viewValue: 'Sonstiges' },
   ];
 
-  constructor(public dialogRef: MatDialogRef<EditComponent>,
+  constructor(public dialogRef: MatDialogRef<EditSalaryComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient, public webservice: WebserviceService, private formBuilder: FormBuilder) { }
 
     invalidCategory() {
-      return (this.submitted && (this.serviceErrors.category != null || this.invoiceForm.controls.category.errors != null));
+      return (this.submitted && (this.serviceErrors.category != null || this.salaryForm.controls.category.errors != null));
     }
   
   ngOnInit() {
-    this.invoiceForm = this.formBuilder.group({
+    this.salaryForm = this.formBuilder.group({
       title: [this.data.title, [Validators.required, Validators.maxLength(50)]],
       categorie: [this.data.categorie, [Validators.required, Validators.maxLength(50)]],
       date: [this.data.date, [Validators.required, Validators.maxLength(75)]],
@@ -73,11 +73,11 @@ export class EditComponent implements OnInit {
 
   stopEdit(_id: string): void {
     this.message = true;
-    let data: any = Object.assign(this.invoiceForm.value);
+    let data: any = Object.assign(this.salaryForm.value);
     let headers = new Headers();
     headers.append('Access-Control-Allow-Origin', 'https://finance-planner-api-dhbw.herokuapp.com');
     headers.append('Access-Control-Allow-Credentials', 'true');
-    this.http.put(`${environment.apiUrl}/api/v1/invoice/${_id}`, data).subscribe((data: any) => {
+    this.http.put(`${environment.apiUrl}/api/v1/salary/${_id}`, data).subscribe((data: any) => {
     }, error => {
       this.serviceErrors = error.error.error;
     });

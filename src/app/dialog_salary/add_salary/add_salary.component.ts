@@ -3,10 +3,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { HttpClient } from "@angular/common/http";
-import { Invoice } from '@app/invoice';
+import { Salary } from '@app/salary';
 import { environment } from '@environments/environment';
 import { User } from '@app/_models';
 import { AccountService } from '@app/_services';
+
 
 
 interface Category {
@@ -16,15 +17,15 @@ interface Category {
 
 @Component({
   selector: 'app-add',
-  templateUrl: './add.component.html',
-  styleUrls: ['./add.component.css']
+  templateUrl: './add_salary.component.html',
+  styleUrls: ['./add_salary.component.css']
 })
-export class AddComponent implements OnInit {
+export class AddSalaryComponent implements OnInit {
   user: User;
   add = false;
   submitted = false;
   message = false;
-  invoiceForm: FormGroup;
+  salaryForm: FormGroup;
   guid: string;
   serviceErrors: any = {};
   selectedValue: string;
@@ -32,41 +33,40 @@ export class AddComponent implements OnInit {
 
 
   categories: Category[] = [
-    { value: 'Einkaufen', viewValue: 'Einkaufen' },
-    { value: 'Mobilität', viewValue: 'Mobilität' },
-    { value: 'Freizeit', viewValue: 'Freizeit' },
-    { value: 'Mitgliedschaften', viewValue: 'Mitgliedschaften' },
-    { value: 'Investments', viewValue: 'Investments' },
-    { value: 'Shopping', viewValue: 'Shopping' },
-    { value: 'Wohnen', viewValue: 'Wohnen' },
-    { value: 'Urlaub', viewValue: 'Urlaub' },
+    { value: 'Lohn', viewValue: 'Lohn' },
+    { value: 'Steuern', viewValue: 'Steuern' },
+    { value: 'Divi', viewValue: 'Freizeit' },
+    { value: 'Dividenden', viewValue: 'Dividenden' },
+    { value: 'Krypto', viewValue: 'Krypto' },
+    { value: 'Aktien', viewValue: 'Aktien' },
+    { value: 'Miete', viewValue: 'Miete' },
     { value: 'Sonstiges', viewValue: 'Sonstiges' },
   ];
 
 
-  constructor(public dialogRef: MatDialogRef<AddComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Invoice,
+  constructor(public dialogRef: MatDialogRef<AddSalaryComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Salary,
     private formBuilder: FormBuilder, private http: HttpClient, private accountService: AccountService) {
       this.user = this.accountService.userValue;
   }
 
   invalidTitle() {
-    return (this.submitted && (this.serviceErrors.title != null || this.invoiceForm.controls.title.errors != null));
+    return (this.submitted && (this.serviceErrors.title != null || this.salaryForm.controls.title.errors != null));
   }
 
   invalidCategory() {
-    return (this.submitted && (this.serviceErrors.category != null || this.invoiceForm.controls.category.errors != null));
+    return (this.submitted && (this.serviceErrors.category != null || this.salaryForm.controls.category.errors != null));
   }
 
   invalidDate() {
-    return (this.submitted && (this.serviceErrors.date != null || this.invoiceForm.controls.date.errors != null));
+    return (this.submitted && (this.serviceErrors.date != null || this.salaryForm.controls.date.errors != null));
   }
 
   invalidAmount() {
-    return (this.submitted && (this.serviceErrors.amount != null || this.invoiceForm.controls.amount.errors != null));
+    return (this.submitted && (this.serviceErrors.amount != null || this.salaryForm.controls.amount.errors != null));
   }
   ngOnInit() {
-    this.invoiceForm = this.formBuilder.group({
+    this.salaryForm = this.formBuilder.group({
       title: ['', [Validators.required, Validators.maxLength(50)]],
       categorie: ['', [Validators.required, Validators.maxLength(50)]],
       date: ['', [Validators.required, Validators.maxLength(75)]],
@@ -86,23 +86,18 @@ export class AddComponent implements OnInit {
 
   public confirmAdd(): void {
     console.log('Selected Item: ' + this.selectedValue)
-    if (this.invoiceForm.invalid == true) {
+    if (this.salaryForm.invalid == true) {
       return;
     }
     else {
       this.message = true;
-      let data: any = Object.assign({ guid: this.guid }, this.invoiceForm.value);
+      let data: any = Object.assign({ guid: this.guid }, this.salaryForm.value);
       console.log("Hinzugefügt");
-      console.log("Datum: "+this.invoiceForm.value.date);
+      console.log("Datum: "+this.salaryForm.value.date);
       let headers = new Headers();
       headers.append('Access-Control-Allow-Origin', 'https://finance-planner-api-dhbw.herokuapp.com');
       headers.append('Access-Control-Allow-Credentials', 'true');
-      this.http.post(`${environment.apiUrl}/api/v1/invoice`, data).subscribe((data: any) => {
-
-        console.log(data.invoice.title);
-
-        let path = '/api/v1/invoice' + data.invoice.title;
-
+      this.http.post(`${environment.apiUrl}/api/v1/salary`, data).subscribe((data: any) => {
       }, error => {
         this.serviceErrors = error.error.error;
       });

@@ -14,34 +14,33 @@ import * as moment from 'moment';
 
 export class KpiCardComponent implements OnInit {
   constructor(private services: WebserviceService, private breakpointObserver: BreakpointObserver) { }
-  show: boolean = true;
-  summe = 0;
-  refSumme=0;
+  positiveOutcoming: boolean = true;
+  positiveIncoming: boolean = true;
+  summeOutcoming = 0;
+  summeIncoming = 0;
+  refSummeIncoming = 0;
+  refSummeOutcoming = 0;
   test = 50;
-  percentage=0
+  percentageOutcoming = 0;
+  percentageIncoming = 0;
   ngOnInit() {
-    let n=this.getAllIncoming();
-    let x=this.getRefSumme();
-  
+    let n = this.getAllOutcoming();
+    let x = this.getRefSummeOutcoming();
+    this.getAllIncoming();
+    this.getRefSummeIncoming();
+
   }
 
-  public roundPercentage(){
-    console.log('Summe: '+ this.summe);
-    console.log('Ref Summe: '+ this.refSumme);
-    
-    this.percentage=Math.round((this.summe/this.refSumme-1)*100);
-    console.log('Perc: '+ this.percentage);
-  }
 
-  public getAllIncoming() {
-    this.services.getUsers()
+  public getAllOutcoming() {
+    this.services.getKPIOutcoming()
       .then(users => {
         var amount = users.map(u => amount = parseInt(u.amount));
         var date = users.map(d => d = (d.date));
-        this.summe = getSum(amount, date);
+        this.summeOutcoming = getSumOutcoming(amount, date);
       })
 
-    function getSum(amount, date) {
+    function getSumOutcoming(amount, date) {
       let now = moment(new Date()).add(-30, 'days').toDate();
       var total = 0;
       for (var i in amount) {
@@ -52,36 +51,111 @@ export class KpiCardComponent implements OnInit {
       }
       return total;
     }
-    return this.summe;
+    return this.summeOutcoming;
   }
+  public getRefSummeOutcoming() {
+    this.services.getKPIOutcoming()
+      .then(users => {
+        var amount = users.map(u => amount = parseInt(u.amount));
+        var date = users.map(d => d = (d.date));
+        this.refSummeOutcoming = getSumOutcoming(amount, date);
+        console.log('Referenssumme: '+ this.refSummeOutcoming);
+        if (this.refSummeOutcoming == 0) {
+          this.percentageOutcoming = 0;
+        }
+        else if (this.refSummeOutcoming < this.summeOutcoming) {
+          this.percentageOutcoming = Math.round((this.summeOutcoming / this.refSummeOutcoming - 1) * 100);
+          this.positiveOutcoming=false;
+        }
+        else {
+          this.percentageOutcoming = Math.round((this.summeOutcoming / this.refSummeOutcoming - 1) * 100);
+          this.positiveOutcoming=true;
+        }
+      })
 
-  public getRefSumme() {
-    this.services.getUsers()
-    .then(users => {
-      var amount = users.map(u => amount = parseInt(u.amount));
-      var date = users.map(d => d = (d.date));
-      this.refSumme = getSum(amount, date);
-      this.percentage= Math.round((this.summe/this.refSumme-1)*100);
-    })
+    function getSumOutcoming(amount, date) {
+      let refDateStart = moment(new Date()).add(-30, 'days').toDate();
+      let refDateEnd = moment(new Date()).add(-60, 'days').toDate();
+      var totalRef = 0;
+      for (var i in amount) {
 
-  function getSum(amount, date) {
-    let refDateStart = moment(new Date()).add(-30, 'days').toDate();
-    let refDateEnd = moment(new Date()).add(-60, 'days').toDate();
-    var totalRef = 0;
-    for (var i in amount) {
-     
-      let p=moment(date[i]);
-      let x = moment(p).format('MM/DD/YYYY');
+        let p = moment(date[i]);
+        let x = moment(p).format('MM/DD/YYYY');
 
-      console.log('Das Datum  '+x+' muss zwischen' +moment(refDateStart).format('MM/DD/YYYY')+ ' und '+moment(refDateEnd).format('MM/DD/YYYY')+ ' sein')
-      if(x<=moment(refDateStart).format('MM/DD/YYYY') && x>= moment(refDateEnd).format('MM/DD/YYYY')) {
-        console.log(x+' ist war, mit Betrag' + amount[i]);
-        totalRef += amount[i];
+        if (x <= moment(refDateStart).format('MM/DD/YYYY') && x >= moment(refDateEnd).format('MM/DD/YYYY')) {
+          console.log(x + ' ist war, mit Betrag' + amount[i]);
+          totalRef += amount[i];
+        }
       }
+      return totalRef;
     }
-    return totalRef;
+    return this.refSummeOutcoming;
   }
-  return this.refSumme;
+
+
+
+  public getAllIncoming() {
+    this.services.getKPIIncoming()
+      .then(users => {
+        var amount = users.map(u => amount = parseInt(u.amount));
+        var date = users.map(d => d = (d.date));
+        this.summeIncoming = getSumIncoming(amount, date);
+      })
+
+    function getSumIncoming(amount, date) {
+      let now = moment(new Date()).add(-30, 'days').toDate();
+      var total = 0;
+      for (var i in amount) {
+        let parseDate = moment(date[i]).format('MM/DD/YYYY');
+        if (parseDate >= moment(now).format('MM/DD/YYYY')) {
+          total += amount[i];
+        }
+      }
+      return total;
+    }
+    return this.summeIncoming;
   }
+
+  public getRefSummeIncoming() {
+    this.services.getKPIIncoming()
+      .then(users => {
+        var amount = users.map(u => amount = parseInt(u.amount));
+        var date = users.map(d => d = (d.date));
+        this.refSummeIncoming = getSumIncoming(amount, date);
+        console.log('Referenssumme: '+ this.refSummeIncoming);
+        if (this.refSummeIncoming == 0) {
+          this.percentageIncoming = 0;
+        }
+        else if (this.refSummeIncoming < this.summeIncoming) {
+          this.percentageIncoming = Math.round((this.summeIncoming / this.refSummeIncoming - 1) * 100);
+          this.positiveIncoming=true;
+        }
+        else {
+          this.percentageIncoming = Math.round((this.summeIncoming / this.refSummeIncoming - 1) * 100);
+          this.positiveIncoming=false;
+        }
+      })
+
+    function getSumIncoming(amount, date) {
+      let refDateStart = moment(new Date()).add(-30, 'days').toDate();
+      let refDateEnd = moment(new Date()).add(-60, 'days').toDate();
+      var totalRef = 0;
+      for (var i in amount) {
+
+        let p = moment(date[i]);
+        let x = moment(p).format('MM/DD/YYYY');
+
+        if (x <= moment(refDateStart).format('MM/DD/YYYY') && x >= moment(refDateEnd).format('MM/DD/YYYY')) {
+          console.log(x + ' ist war, mit Betrag' + amount[i]);
+          totalRef += amount[i];
+        }
+      }
+      return totalRef;
+    }
+    return this.refSummeIncoming;
+  }
+
+
+
 
 }

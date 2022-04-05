@@ -1,44 +1,41 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Invoice } from '../invoice';
+import { Salary } from '../salary';
 import { WebserviceService } from '../_services/webservice.service';
 import { Input } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
-import { AddComponent } from '@app/dialog/add/add.component';
-import { DeleteComponent } from '@app/dialog/delete/delete.component';
-import { EditComponent } from '@app/dialog/edit/edit.component';
+import { DeleteSalaryComponent } from '@app/dialog_salary/delete_salary/delete.component';
+import { EditSalaryComponent } from '@app/dialog_salary/edit_salary/edit.component';
 import {MatPaginator} from '@angular/material/paginator';
+import {AddSalaryComponent} from '@app/dialog_salary/add_salary/add_salary.component';
 
 @Component({
-  selector: 'display-incoming-data',
-  templateUrl: './display-incoming-data.component.html',
-  styleUrls: ['./display-incoming-data.component.css']
+  selector: 'app-display-incomming-data',
+  templateUrl: './display-incomming-data.component.html',
+  styleUrls: ['./display-incomming-data.component.css']
 })
-export class DisplayIncomingDataComponent implements OnInit {
+export class DisplayIncommingDataComponent  implements OnInit {
 
   //EXAMPLE_DATA : Invoice[];
-  @Input('EXAMPLE_DATA') EXAMPLE_DATA!: Invoice[];
+  @Input('EXAMPLE_DATA') EXAMPLE_DATA!: Salary[];
   displayColums: string[] = ['_id','title', 'categorie', 'amount', 'date', 'actions'];
-  dataSource = new MatTableDataSource<Invoice>(this.EXAMPLE_DATA);
+  dataSource = new MatTableDataSource<Salary>(this.EXAMPLE_DATA);
   constructor(private service: WebserviceService,
     public httpClient: HttpClient,
     public dialog: MatDialog) { }
     @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   ngOnInit() {
-    console.log("Hier angekommen");
-    this.getAllInvoices();
+    this.getAllSalaries();
   }
 
   refresh(){
-    this.getAllInvoices();
+    this.getAllSalaries();
   }
-  public getAllInvoices() {
-    let resp = this.service.getInvoices();
-    
-    console.log("Jetzt bin ich hier!");
+  public getAllSalaries() {
+    let resp = this.service.getSalaries();
     console.log(resp);
-    resp.subscribe(report => this.dataSource.data = report as Invoice[]);
+    resp.subscribe(report => this.dataSource.data = report as Salary[]);
   }
 
   applyFilter(filterValue: string) {
@@ -48,7 +45,7 @@ export class DisplayIncomingDataComponent implements OnInit {
   }
 
   addNew(){
-    const dialogRef = this.dialog.open(AddComponent);
+    const dialogRef = this.dialog.open(AddSalaryComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result === 1) {
       }
@@ -57,13 +54,13 @@ export class DisplayIncomingDataComponent implements OnInit {
   }
 
   startEdit(_id: string, title: string, categorie: string, amount: number, date: Date) {
-    const dialogRef = this.dialog.open(EditComponent, {
+    const dialogRef = this.dialog.open(EditSalaryComponent, {
       data: {_id: _id, title: title, categorie: categorie,amount: amount, date: date},
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === 1) {
-        this.service.updateIncoming(_id,dialogRef);
+        this.service.updateOutcomming(_id,dialogRef);
       }
       this.refresh();
     });
@@ -71,7 +68,7 @@ export class DisplayIncomingDataComponent implements OnInit {
 
 
   deleteItem(_id: string, title: string, categorie: string, amount: number, date: Date) {
-    const dialogRef = this.dialog.open(DeleteComponent, {
+    const dialogRef = this.dialog.open(DeleteSalaryComponent, {
       data: {_id: _id, title: title, categorie: categorie,amount: amount, date: date},
     });
     dialogRef.afterClosed().subscribe(result => {

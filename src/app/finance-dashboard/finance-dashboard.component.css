@@ -1,0 +1,33 @@
+.container{
+    display:inline-flex;
+    width: 100%;
+    flex-wrap:wrap;
+
+  }
+  .flex-direction{
+    flex-direction:row;
+  }
+  .div1{
+    width:50%;
+  }
+  
+  .div2{
+    width:50%;
+  }
+
+  @media screen and (max-width: 500px) {
+    .flex-direction{
+    flex-direction:column;
+    }
+  .div1{
+    width:100%;
+  
+    border-right:none;
+    margin-bottom: 20px;
+    }
+    .div2{
+      width:100%;
+  
+    }
+ 
+  }
