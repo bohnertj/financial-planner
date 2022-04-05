@@ -11,7 +11,7 @@ import * as moment from 'moment';
 })
 
 export class BarChartComponent implements OnInit {
-  puffer = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  puffer = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   incomingPuffer = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   last12Month: number[] = [];
   used12Month = [];
