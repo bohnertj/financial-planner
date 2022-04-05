@@ -26,6 +26,7 @@ export class DisplayOutcommingDataComponent implements OnInit {
     public dialog: MatDialog) { }
     @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   ngOnInit() {
+    this.refresh();
     this.getAllInvoices();
   }
 

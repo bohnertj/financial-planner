@@ -20,6 +20,7 @@ interface Category {
   styleUrls: ['./add.component.css']
 })
 export class AddComponent implements OnInit {
+  amount = new FormControl('', [Validators.required]);
   user: User;
   add = false;
   submitted = false;
@@ -50,18 +51,6 @@ export class AddComponent implements OnInit {
       this.user = this.accountService.userValue;
   }
 
-  invalidTitle() {
-    return (this.submitted && (this.serviceErrors.title != null || this.invoiceForm.controls.title.errors != null));
-  }
-
-  invalidCategory() {
-    return (this.submitted && (this.serviceErrors.category != null || this.invoiceForm.controls.category.errors != null));
-  }
-
-  invalidDate() {
-    return (this.submitted && (this.serviceErrors.date != null || this.invoiceForm.controls.date.errors != null));
-  }
-
   invalidAmount() {
     return (this.submitted && (this.serviceErrors.amount != null || this.invoiceForm.controls.amount.errors != null));
   }
@@ -70,11 +59,10 @@ export class AddComponent implements OnInit {
       title: ['', [Validators.required, Validators.maxLength(50)]],
       categorie: ['', [Validators.required, Validators.maxLength(50)]],
       date: ['', [Validators.required, Validators.maxLength(75)]],
-      amount: ['', [Validators.required, Validators.maxLength(50)]],
+      amount: ['', [Validators.required]],
       username: this.user.username
     });
   }
-
 
   submit() {
     // empty stuff

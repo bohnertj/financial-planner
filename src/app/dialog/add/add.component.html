@@ -1,6 +1,6 @@
 <div class="container">
   <div class="test">
-    <legend>Rechnung hinzufügen</legend>
+    <legend>Ausgaben hinzufügen</legend>
     <form [formGroup]="invoiceForm" (ngSubmit)="submit">
 
       <div class="form">
@@ -36,7 +36,8 @@
 
       <div class="form">
         <mat-form-field color="accent">
-          <input matInput placeholder="Betrag" formControlName="amount" id="id" name="amount" required>
+          <input matInput placeholder="Betrag" formControlName="amount" id="id" name="amount" type="number" pattern="[0-9]*" [formControl]="amount" required>
+          <mat-error *ngIf="amount.invalid">{{"Geben Sie einen gültigen Betrag ein"}}</mat-error>
         </mat-form-field>
       </div>
 
