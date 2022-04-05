@@ -59,7 +59,8 @@ export class KpiCardComponent implements OnInit {
         var amount = users.map(u => amount = parseInt(u.amount));
         var date = users.map(d => d = (d.date));
         this.refSummeOutcoming = getSumOutcoming(amount, date);
-        console.log('Referenssumme: '+ this.refSummeOutcoming);
+        console.log('Referenssumme: Outcoming '+ this.refSummeOutcoming);
+        console.log('Aktuelle Summe: Outcoming '+ this.summeOutcoming);
         if (this.refSummeOutcoming == 0) {
           this.percentageOutcoming = 0;
         }
@@ -122,7 +123,8 @@ export class KpiCardComponent implements OnInit {
         var amount = users.map(u => amount = parseInt(u.amount));
         var date = users.map(d => d = (d.date));
         this.refSummeIncoming = getSumIncoming(amount, date);
-        console.log('Referenssumme: '+ this.refSummeIncoming);
+        console.log('Referenssumme Incoming: '+ this.refSummeIncoming);
+        console.log('Aktuelle Summe: Incoming '+ this.summeIncoming);
         if (this.refSummeIncoming == 0) {
           this.percentageIncoming = 0;
         }
