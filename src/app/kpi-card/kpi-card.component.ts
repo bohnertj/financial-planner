@@ -26,8 +26,8 @@ export class KpiCardComponent implements OnInit {
   ngOnInit() {
     this.getAllOutcoming();
     this.getAllIncoming();
-    setTimeout(() => this.getRefSummeOutcoming(), 1000);
-    setTimeout(() => this.getRefSummeIncoming(), 1000);
+    setTimeout(() => this.getRefSummeOutcoming(), 300);
+    setTimeout(() => this.getRefSummeIncoming(), 300);
   }
 
 
