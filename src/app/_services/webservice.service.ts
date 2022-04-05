@@ -140,7 +140,7 @@ export class WebserviceService {
     };
 
     console.log('Username' + this.user.username);
-    return fetch(`${environment.apiUrl}/api/v1/invoice/invoicebydate`, requestOptions)
+    return fetch(`${environment.apiUrl}/api/v1/salary/salarybydate`, requestOptions)
       .then(res => res.json())
       .then(res => {
         return res;
