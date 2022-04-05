@@ -155,13 +155,18 @@ export class WebserviceService {
     //return this.http.delete(`${environment.apiUrl}/api/v1/invoice/${id}`);
   }
 
-  public deleteSalary(id: string) {
+  public deleteSalary(_id: string): void {
+    let headers = new Headers();
+    headers.append('Access-Control-Allow-Origin', 'https://finance-planner-api-dhbw.herokuapp.com');
+    headers.append('Access-Control-Allow-Credentials', 'true');
+    this.http.delete(`${environment.apiUrl}/api/v1/salary/${_id}`).subscribe(data => {
+      console.log('successfully deleted')
+    },
+      (err: HttpErrorResponse) => {
+        console.log('Error occurred. Details: ' + err.message, 8000);
+      }
+    );
 
-    console.log("Jetzt wird gelöscht mit id" + id);
-    return this.http.get(`${environment.apiUrl}/api/v1/salary/${id}`);
-
-
-    //return this.http.delete(`${environment.apiUrl}/api/v1/invoice/${id}`);
   }
   
 

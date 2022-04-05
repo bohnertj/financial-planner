@@ -73,6 +73,7 @@ export class DisplayIncommingDataComponent  implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result === 1) {
+        this.refresh();
         this.service.delete(_id);
       }
       this.refresh();
