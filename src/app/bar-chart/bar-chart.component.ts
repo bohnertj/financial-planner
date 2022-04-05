@@ -46,9 +46,9 @@ export class BarChartComponent implements OnInit {
 
 
   ngOnInit() {
-    this.getInvoicesByMonth();
-    this.getSalariesByMonth();
     this.getLast12Month();
+    setTimeout(() => this.getSalariesByMonth(), 300);
+    setTimeout(() => this.getInvoicesByMonth(), 300);
     //  this.compareArray(this.used12Month);
     //this.liste.push({ data: [this.puffer], label: 'Einnahmen' });
   }
