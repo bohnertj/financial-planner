@@ -47,7 +47,7 @@ export class WebserviceService {
     const requestOptions = {
       headers: new Headers(headerDict),
     };
-    return fetch(`${environment.apiUrl}/api/v1/invoice`, requestOptions)
+     return fetch(`${environment.apiUrl}/api/v1/invoice`, requestOptions)
       .then(res => res.json())
       .then(res => {
         return res;

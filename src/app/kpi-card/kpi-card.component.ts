@@ -24,11 +24,10 @@ export class KpiCardComponent implements OnInit {
   percentageOutcoming = 0;
   percentageIncoming = 0;
   ngOnInit() {
-    let n = this.getAllOutcoming();
-    let x = this.getRefSummeOutcoming();
+    this.getAllOutcoming();
     this.getAllIncoming();
+    this.getRefSummeOutcoming();
     this.getRefSummeIncoming();
-
   }
 
 
