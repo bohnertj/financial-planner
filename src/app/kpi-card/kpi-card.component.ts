@@ -20,7 +20,6 @@ export class KpiCardComponent implements OnInit {
   summeIncoming = 0;
   refSummeIncoming = 0;
   refSummeOutcoming = 0;
-  test = 50;
   percentageOutcoming = 0;
   percentageIncoming = 0;
   ngOnInit() {
@@ -68,7 +67,7 @@ export class KpiCardComponent implements OnInit {
           this.positiveOutcoming=false;
         }
         else {
-          this.percentageOutcoming = Math.round((this.summeOutcoming / this.refSummeOutcoming - 1) * 100);
+          this.percentageOutcoming = Math.abs(Math.round((this.summeOutcoming / this.refSummeOutcoming - 1) * 100));
           this.positiveOutcoming=true;
         }
       })
@@ -132,7 +131,7 @@ export class KpiCardComponent implements OnInit {
           this.positiveIncoming=true;
         }
         else {
-          this.percentageIncoming = Math.round((this.summeIncoming / this.refSummeIncoming - 1) * 100);
+          this.percentageIncoming = Math.abs(Math.round((this.summeIncoming / this.refSummeIncoming - 1) * 100));
           this.positiveIncoming=false;
         }
       })
