@@ -139,7 +139,6 @@ export class WebserviceService {
       headers: new Headers(headerDict),
     };
 
-    console.log('Username' + this.user.username);
     return fetch(`${environment.apiUrl}/api/v1/salary/salarybydate`, requestOptions)
       .then(res => res.json())
       .then(res => {
