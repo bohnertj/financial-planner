@@ -12,12 +12,10 @@ const usersModule = () => import('./users/users.module').then(x => x.UsersModule
 
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
-   // { path: 'users', loadChildren: usersModule, canActivate: [AuthGuard] },
     { path: 'account', loadChildren: accountModule },
     { path: 'display-outcomming-data', component: DisplayOutcommingDataComponent, canActivate: [AuthGuard] },
     { path: 'display-incomming-data', component: DisplayIncommingDataComponent, canActivate: [AuthGuard] },
     { path: 'dashboard', component: FinanceDashboardComponent, canActivate: [AuthGuard] },
-    // otherwise redirect to home
     { path: '**', redirectTo: '' }
 ];
 

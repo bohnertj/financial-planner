@@ -34,7 +34,6 @@ export class DisplayOutcommingDataComponent implements OnInit {
   }
   public getAllInvoices() {
     let resp = this.service.getInvoices();
-    console.log(resp);
     resp.subscribe(report => this.dataSource.data = report as Invoice[]);
   }
 
