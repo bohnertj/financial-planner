@@ -17,9 +17,8 @@ import {MatPaginator} from '@angular/material/paginator';
 })
 export class DisplayOutcommingDataComponent implements OnInit {
 
-  //EXAMPLE_DATA : Invoice[];
   @Input('EXAMPLE_DATA') EXAMPLE_DATA!: Invoice[];
-  displayColums: string[] = ['_id','title', 'categorie', 'amount', 'date', 'actions'];
+  displayColums: string[] = ['title', 'categorie', 'amount', 'date', 'actions'];
   dataSource = new MatTableDataSource<Invoice>(this.EXAMPLE_DATA);
   constructor(private service: WebserviceService,
     public httpClient: HttpClient,

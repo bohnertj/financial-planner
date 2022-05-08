@@ -10,7 +10,7 @@ import { WebserviceService } from '@app/_services/webservice.service';
   styleUrls: ['./doughnut-chart.component.css']
 })
 
-export class DoughnutChartComponent implements OnInit{
+export class DoughnutChartComponent implements OnInit {
 
   doughnutChartLabels: Label[] = ['Essen'];
   doughnutChartData: MultiDataSet = [
@@ -18,31 +18,29 @@ export class DoughnutChartComponent implements OnInit{
   ];
   doughnutChartType: ChartType = 'doughnut';
 
-  data= [];
-  label:Label[]=[];
+  data = [];
+  label: Label[] = [];
   ngOnInit() {
     this.getAllCategories();
-
-    console.log("IST HIER WAS"+this.data[1]);
   }
   constructor(private services: WebserviceService) { }
 
-  public getAllCategories(){
+  public getAllCategories() {
     this.services.getCategories()
       .then(cat => {
         var _id = cat.map(c => _id = c._id);
         var amount = cat.map(a => amount = (a.amount));
-        for(var i in _id){
+        for (var i in _id) {
           this.label.push(_id[i]);
         }
-        for(var i in amount){
+        for (var i in amount) {
           this.data.push(amount[i]);
         }
-  })
-}
+      })
+  }
 
-public chartColors: any[] = [
-  { 
-    backgroundColor:["#FF7360", "#6FC8CE", "#FAFFF2", "#FFFCC4", "#B9E8E0"] 
-  }];
+  public chartColors: any[] = [
+    {
+      backgroundColor: ["#FF7360", "#6FC8CE", "#FAFFF2", "#FFFCC4", "#B9E8E0"]
+    }];
 }

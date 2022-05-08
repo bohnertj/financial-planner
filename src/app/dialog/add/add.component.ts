@@ -1,4 +1,3 @@
-
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
@@ -20,6 +19,9 @@ interface Category {
   styleUrls: ['./add.component.css']
 })
 export class AddComponent implements OnInit {
+  title = new FormControl('', [Validators.required]);
+  category = new FormControl('', [Validators.required]);
+  date = new FormControl('', [Validators.required]);
   amount = new FormControl('', [Validators.required]);
   user: User;
   add = false;
@@ -51,6 +53,18 @@ export class AddComponent implements OnInit {
       this.user = this.accountService.userValue;
   }
 
+  invalidTitle() {
+    return (this.submitted && (this.serviceErrors.title != null || this.invoiceForm.controls.title.errors != null));
+  }
+
+  invalidCategory() {
+    return (this.submitted && (this.serviceErrors.category != null || this.invoiceForm.controls.category.errors != null));
+  }
+
+  invalidDate() {
+    return (this.submitted && (this.serviceErrors.date != null || this.invoiceForm.controls.date.errors != null));
+  }
+
   invalidAmount() {
     return (this.submitted && (this.serviceErrors.amount != null || this.invoiceForm.controls.amount.errors != null));
   }
@@ -59,10 +73,11 @@ export class AddComponent implements OnInit {
       title: ['', [Validators.required, Validators.maxLength(50)]],
       categorie: ['', [Validators.required, Validators.maxLength(50)]],
       date: ['', [Validators.required, Validators.maxLength(75)]],
-      amount: ['', [Validators.required]],
+      amount: ['', [Validators.required, Validators.maxLength(50)]],
       username: this.user.username
     });
   }
+
 
   submit() {
     // empty stuff
@@ -73,28 +88,20 @@ export class AddComponent implements OnInit {
   }
 
   public confirmAdd(): void {
-    console.log('Selected Item: ' + this.selectedValue)
     if (this.invoiceForm.invalid == true) {
       return;
     }
     else {
       this.message = true;
       let data: any = Object.assign({ guid: this.guid }, this.invoiceForm.value);
-      console.log("Hinzugefügt");
-      console.log("Datum: "+this.invoiceForm.value.date);
       let headers = new Headers();
       headers.append('Access-Control-Allow-Origin', 'https://finance-planner-api-dhbw.herokuapp.com');
       headers.append('Access-Control-Allow-Credentials', 'true');
       this.http.post(`${environment.apiUrl}/api/v1/invoice`, data).subscribe((data: any) => {
-
-        console.log(data.invoice.title);
-
         let path = '/api/v1/invoice' + data.invoice.title;
-
       }, error => {
         this.serviceErrors = error.error.error;
       });
-
       this.add = true;
       this.dialogRef.close();
     }

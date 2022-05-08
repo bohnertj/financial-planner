@@ -41,10 +41,6 @@ export class EditComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<EditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient, public webservice: WebserviceService, private formBuilder: FormBuilder) { }
 
-    invalidCategory() {
-      return (this.submitted && (this.serviceErrors.category != null || this.invoiceForm.controls.category.errors != null));
-    }
-  
   ngOnInit() {
     this.invoiceForm = this.formBuilder.group({
       title: [this.data.title, [Validators.required, Validators.maxLength(50)]],
@@ -57,11 +53,6 @@ export class EditComponent implements OnInit {
     Validators.required
   ]);
 
-  getErrorMessage() {
-    return this.formControl.hasError('required') ? 'Required field' :
-      this.formControl.hasError('email') ? 'Not a valid email' :
-        '';
-  }
 
   submit() {
     // emppty stuff

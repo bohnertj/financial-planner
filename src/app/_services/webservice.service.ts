@@ -6,9 +6,6 @@ import { User } from '@app/_models';
 import { AccountService } from '@app/_services';
 import { HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
-
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -17,13 +14,11 @@ export class WebserviceService {
   user: User;
   constructor(private http: HttpClient, private accountService: AccountService) { this.user = this.accountService.userValue }
 
-
   getDialogData() {
     return this.dialogData;
   }
 
   public getInvoices() {
-    console.log("War ich schon hier?" + this.user.username);
     const headers = new HttpHeaders()
       .set('username', this.user.username)
     headers.append('Access-Control-Allow-Origin', 'https://finance-planner-api-dhbw.herokuapp.com');
@@ -31,7 +26,6 @@ export class WebserviceService {
     return this.http.get(`${environment.apiUrl}/api/v1/invoice`, { 'headers': headers });
   }
   public getSalaries() {
-    console.log("War ich schon hier?" + this.user.username);
     const headers = new HttpHeaders()
       .set('username', this.user.username)
     headers.append('Access-Control-Allow-Origin', 'https://finance-planner-api-dhbw.herokuapp.com');
@@ -47,7 +41,7 @@ export class WebserviceService {
     const requestOptions = {
       headers: new Headers(headerDict),
     };
-     return fetch(`${environment.apiUrl}/api/v1/invoice`, requestOptions)
+    return fetch(`${environment.apiUrl}/api/v1/invoice`, requestOptions)
       .then(res => res.json())
       .then(res => {
         return res;
@@ -72,14 +66,12 @@ export class WebserviceService {
   public getCategories() {
     const headerDict = {
       'username': this.user.username
-      
     }
 
     const requestOptions = {
       headers: new Headers(headerDict),
     };
 
-    console.log('Username' + this.user.username);
     let headers = new Headers();
     headers.append('Access-Control-Allow-Origin', 'https://finance-planner-api-dhbw.herokuapp.com');
     headers.append('Access-Control-Allow-Credentials', 'true');
@@ -94,14 +86,13 @@ export class WebserviceService {
   public getIncomingCategories() {
     const headerDict = {
       'username': this.user.username
-      
+
     }
 
     const requestOptions = {
       headers: new Headers(headerDict),
     };
 
-    console.log('Username' + this.user.username);
     let headers = new Headers();
     headers.append('Access-Control-Allow-Origin', 'https://finance-planner-api-dhbw.herokuapp.com');
     headers.append('Access-Control-Allow-Credentials', 'true');
@@ -122,7 +113,6 @@ export class WebserviceService {
       headers: new Headers(headerDict),
     };
 
-    console.log('Username' + this.user.username);
     return fetch(`${environment.apiUrl}/api/v1/invoice/invoicebydate`, requestOptions)
       .then(res => res.json())
       .then(res => {
@@ -146,13 +136,8 @@ export class WebserviceService {
       })
   }
 
-  public delteInvoices(id: string) {
-
-    console.log("Jetzt wird gelöscht mit id" + id);
+  public deleteInvoices(id: string) {
     return this.http.get(`${environment.apiUrl}/api/v1/invoice/${id}`);
-
-
-    //return this.http.delete(`${environment.apiUrl}/api/v1/invoice/${id}`);
   }
 
   public deleteSalary(_id: string): void {
@@ -160,7 +145,6 @@ export class WebserviceService {
     headers.append('Access-Control-Allow-Origin', 'https://finance-planner-api-dhbw.herokuapp.com');
     headers.append('Access-Control-Allow-Credentials', 'true');
     this.http.delete(`${environment.apiUrl}/api/v1/salary/${_id}`).subscribe(data => {
-      console.log('successfully deleted')
     },
       (err: HttpErrorResponse) => {
         console.log('Error occurred. Details: ' + err.message, 8000);
@@ -168,14 +152,13 @@ export class WebserviceService {
     );
 
   }
-  
+
 
   delete(_id: string): void {
     let headers = new Headers();
     headers.append('Access-Control-Allow-Origin', 'https://finance-planner-api-dhbw.herokuapp.com');
     headers.append('Access-Control-Allow-Credentials', 'true');
     this.http.delete(`${environment.apiUrl}/api/v1/invoice/${_id}`).subscribe(data => {
-      console.log('successfully deleted')
     },
       (err: HttpErrorResponse) => {
         console.log('Error occurred. Details: ' + err.message, 8000);
@@ -184,24 +167,24 @@ export class WebserviceService {
   }
 
   updateOutcomming(_id, data): void {
-  
+
     this.http.put(`${environment.apiUrl}/api/v1/invoice/${_id}`, data).subscribe({
       next: data => {
       },
       error: error => {
-          console.error(JSON.stringify(error));
+        console.error(JSON.stringify(error));
       }
-  });
+    });
   }
   updateIncomming(_id, data): void {
-  
+
     this.http.put(`${environment.apiUrl}/api/v1/salary/${_id}`, data).subscribe({
       next: data => {
       },
       error: error => {
-          console.error(JSON.stringify(error));
+        console.error(JSON.stringify(error));
       }
-  });
+    });
   }
 
 }

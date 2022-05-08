@@ -3,39 +3,37 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Salary } from '../salary';
 import { WebserviceService } from '../_services/webservice.service';
 import { Input } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteSalaryComponent } from '@app/dialog_salary/delete_salary/delete.component';
 import { EditSalaryComponent } from '@app/dialog_salary/edit_salary/edit.component';
-import {MatPaginator} from '@angular/material/paginator';
-import {AddSalaryComponent} from '@app/dialog_salary/add_salary/add_salary.component';
+import { MatPaginator } from '@angular/material/paginator';
+import { AddSalaryComponent } from '@app/dialog_salary/add_salary/add_salary.component';
 
 @Component({
   selector: 'app-display-incomming-data',
   templateUrl: './display-incomming-data.component.html',
   styleUrls: ['./display-incomming-data.component.css']
 })
-export class DisplayIncommingDataComponent  implements OnInit {
+export class DisplayIncommingDataComponent implements OnInit {
 
-  //EXAMPLE_DATA : Invoice[];
   @Input('EXAMPLE_DATA') EXAMPLE_DATA!: Salary[];
-  displayColums: string[] = ['_id','title', 'categorie', 'amount', 'date', 'actions'];
+  displayColums: string[] = ['title', 'categorie', 'amount', 'date', 'actions'];
   dataSource = new MatTableDataSource<Salary>(this.EXAMPLE_DATA);
   constructor(private service: WebserviceService,
     public httpClient: HttpClient,
     public dialog: MatDialog) { }
-    @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   ngOnInit() {
     this.refresh();
     this.getAllSalaries();
   }
 
-  refresh(){
+  refresh() {
     this.getAllSalaries();
   }
   public getAllSalaries() {
     let resp = this.service.getSalaries();
-    console.log(resp);
     resp.subscribe(report => this.dataSource.data = report as Salary[]);
   }
 
@@ -45,7 +43,7 @@ export class DisplayIncommingDataComponent  implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  addNew(){
+  addNew() {
     const dialogRef = this.dialog.open(AddSalaryComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result === 1) {
@@ -56,12 +54,12 @@ export class DisplayIncommingDataComponent  implements OnInit {
 
   startEdit(_id: string, title: string, categorie: string, amount: number, date: Date) {
     const dialogRef = this.dialog.open(EditSalaryComponent, {
-      data: {_id: _id, title: title, categorie: categorie,amount: amount, date: date},
+      data: { _id: _id, title: title, categorie: categorie, amount: amount, date: date },
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === 1) {
-        this.service.updateOutcomming(_id,dialogRef);
+        this.service.updateOutcomming(_id, dialogRef);
       }
       this.refresh();
     });
@@ -70,7 +68,7 @@ export class DisplayIncommingDataComponent  implements OnInit {
 
   deleteItem(_id: string, title: string, categorie: string, amount: number, date: Date) {
     const dialogRef = this.dialog.open(DeleteSalaryComponent, {
-      data: {_id: _id, title: title, categorie: categorie,amount: amount, date: date},
+      data: { _id: _id, title: title, categorie: categorie, amount: amount, date: date },
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result === 1) {

@@ -7,8 +7,7 @@ import { Salary } from '@app/salary';
 import { environment } from '@environments/environment';
 import { User } from '@app/_models';
 import { AccountService } from '@app/_services';
-
-
+import * as moment from 'moment';
 
 interface Category {
   value: string;
@@ -35,7 +34,6 @@ export class AddSalaryComponent implements OnInit {
   categories: Category[] = [
     { value: 'Lohn', viewValue: 'Lohn' },
     { value: 'Steuern', viewValue: 'Steuern' },
-    { value: 'Divi', viewValue: 'Freizeit' },
     { value: 'Dividenden', viewValue: 'Dividenden' },
     { value: 'Krypto', viewValue: 'Krypto' },
     { value: 'Aktien', viewValue: 'Aktien' },
@@ -47,7 +45,7 @@ export class AddSalaryComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<AddSalaryComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Salary,
     private formBuilder: FormBuilder, private http: HttpClient, private accountService: AccountService) {
-      this.user = this.accountService.userValue;
+    this.user = this.accountService.userValue;
   }
 
   invalidTitle() {
@@ -66,6 +64,7 @@ export class AddSalaryComponent implements OnInit {
     return (this.submitted && (this.serviceErrors.amount != null || this.salaryForm.controls.amount.errors != null));
   }
   ngOnInit() {
+    moment.locale('de');
     this.salaryForm = this.formBuilder.group({
       title: ['', [Validators.required, Validators.maxLength(50)]],
       categorie: ['', [Validators.required, Validators.maxLength(50)]],
@@ -85,15 +84,12 @@ export class AddSalaryComponent implements OnInit {
   }
 
   public confirmAdd(): void {
-    console.log('Selected Item: ' + this.selectedValue)
     if (this.salaryForm.invalid == true) {
       return;
     }
     else {
       this.message = true;
       let data: any = Object.assign({ guid: this.guid }, this.salaryForm.value);
-      console.log("Hinzugefügt");
-      console.log("Datum: "+this.salaryForm.value.date);
       let headers = new Headers();
       headers.append('Access-Control-Allow-Origin', 'https://finance-planner-api-dhbw.herokuapp.com');
       headers.append('Access-Control-Allow-Credentials', 'true');
@@ -101,7 +97,6 @@ export class AddSalaryComponent implements OnInit {
       }, error => {
         this.serviceErrors = error.error.error;
       });
-
       this.add = true;
       this.dialogRef.close();
     }

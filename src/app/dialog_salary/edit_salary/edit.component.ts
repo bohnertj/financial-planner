@@ -27,24 +27,18 @@ export class EditSalaryComponent implements OnInit {
 
 
   categories: Category[] = [
-    { value: 'Einkaufen', viewValue: 'Einkaufen' },
-    { value: 'Mobilität', viewValue: 'Mobilität' },
-    { value: 'Freizeit', viewValue: 'Freizeit' },
-    { value: 'Mitgliedschaften', viewValue: 'Mitgliedschaften' },
-    { value: 'Investments', viewValue: 'Investments' },
-    { value: 'Shopping', viewValue: 'Shopping' },
-    { value: 'Wohnen', viewValue: 'Wohnen' },
-    { value: 'Urlaub', viewValue: 'Urlaub' },
+    { value: 'Lohn', viewValue: 'Lohn' },
+    { value: 'Steuern', viewValue: 'Steuern' },
+    { value: 'Dividenden', viewValue: 'Dividenden' },
+    { value: 'Krypto', viewValue: 'Krypto' },
+    { value: 'Aktien', viewValue: 'Aktien' },
+    { value: 'Miete', viewValue: 'Miete' },
     { value: 'Sonstiges', viewValue: 'Sonstiges' },
   ];
 
   constructor(public dialogRef: MatDialogRef<EditSalaryComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient, public webservice: WebserviceService, private formBuilder: FormBuilder) { }
 
-    invalidCategory() {
-      return (this.submitted && (this.serviceErrors.category != null || this.salaryForm.controls.category.errors != null));
-    }
-  
   ngOnInit() {
     this.salaryForm = this.formBuilder.group({
       title: [this.data.title, [Validators.required, Validators.maxLength(50)]],
@@ -56,12 +50,6 @@ export class EditSalaryComponent implements OnInit {
   formControl = new FormControl('', [
     Validators.required
   ]);
-
-  getErrorMessage() {
-    return this.formControl.hasError('required') ? 'Required field' :
-      this.formControl.hasError('email') ? 'Not a valid email' :
-        '';
-  }
 
   submit() {
     // emppty stuff

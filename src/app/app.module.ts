@@ -1,4 +1,5 @@
-﻿import { NgModule } from '@angular/core';
+﻿import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -95,10 +96,8 @@ import { IncomingDoughnutChartComponent } from './incoming-doughnut-chart/incomi
         { provide: MatDialogRef, useValue: {} },
         { provide: MatDatepickerModule },
         { provide: MAT_DATE_LOCALE, useValue: 'de-DE' }
-
-        // provider used to create fake backend
-        //    fakeBackendProvider
     ],
     bootstrap: [AppComponent]
 })
 export class AppModule { };
+platformBrowserDynamic().bootstrapModule(AppModule);

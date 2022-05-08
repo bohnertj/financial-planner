@@ -57,18 +57,20 @@ export class KpiCardComponent implements OnInit {
         var amount = users.map(u => amount = parseInt(u.amount));
         var date = users.map(d => d = (d.date));
         this.refSummeOutcoming = getSumOutcoming(amount, date);
-        console.log('Referenssumme: Outcoming '+ this.refSummeOutcoming);
-        console.log('Aktuelle Summe: Outcoming '+ this.summeOutcoming);
         if (this.refSummeOutcoming == 0) {
           this.percentageOutcoming = 0;
         }
         else if (this.refSummeOutcoming < this.summeOutcoming) {
           this.percentageOutcoming = Math.round((this.summeOutcoming / this.refSummeOutcoming - 1) * 100);
-          this.positiveOutcoming=false;
+          this.positiveOutcoming = true;
+        }
+        else if (this.refSummeOutcoming == this.summeOutcoming) {
+          this.percentageOutcoming = 0;
+          this.positiveOutcoming = false;
         }
         else {
-          this.percentageOutcoming = Math.abs(Math.round((this.summeOutcoming / this.refSummeOutcoming - 1) * 100));
-          this.positiveOutcoming=true;
+          this.percentageOutcoming = Math.round((this.summeOutcoming / this.refSummeOutcoming) * 100);
+          this.positiveOutcoming = false;
         }
       })
 
@@ -82,7 +84,6 @@ export class KpiCardComponent implements OnInit {
         let x = moment(p).format('MM/DD/YYYY');
 
         if (x <= moment(refDateStart).format('MM/DD/YYYY') && x >= moment(refDateEnd).format('MM/DD/YYYY')) {
-          console.log(x + ' ist war, mit Betrag' + amount[i]);
           totalRef += amount[i];
         }
       }
@@ -121,18 +122,21 @@ export class KpiCardComponent implements OnInit {
         var amount = users.map(u => amount = parseInt(u.amount));
         var date = users.map(d => d = (d.date));
         this.refSummeIncoming = getSumIncoming(amount, date);
-        console.log('Referenssumme Incoming: '+ this.refSummeIncoming);
-        console.log('Aktuelle Summe: Incoming '+ this.summeIncoming);
+
         if (this.refSummeIncoming == 0) {
           this.percentageIncoming = 0;
         }
         else if (this.refSummeIncoming < this.summeIncoming) {
           this.percentageIncoming = Math.round((this.summeIncoming / this.refSummeIncoming - 1) * 100);
-          this.positiveIncoming=true;
+          this.positiveIncoming = true;
+        }
+        else if (this.refSummeIncoming == this.summeIncoming) {
+          this.percentageIncoming = 0;
+          this.positiveIncoming = true;
         }
         else {
-          this.percentageIncoming = Math.abs(Math.round((this.summeIncoming / this.refSummeIncoming - 1) * 100));
-          this.positiveIncoming=false;
+          this.percentageIncoming = Math.round((this.summeIncoming / this.refSummeIncoming) * 100);
+          this.positiveIncoming = false;
         }
       })
 
@@ -146,7 +150,6 @@ export class KpiCardComponent implements OnInit {
         let x = moment(p).format('MM/DD/YYYY');
 
         if (x <= moment(refDateStart).format('MM/DD/YYYY') && x >= moment(refDateEnd).format('MM/DD/YYYY')) {
-          console.log(x + ' ist war, mit Betrag' + amount[i]);
           totalRef += amount[i];
         }
       }
@@ -154,8 +157,4 @@ export class KpiCardComponent implements OnInit {
     }
     return this.refSummeIncoming;
   }
-
-
-
-
 }

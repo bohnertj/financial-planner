@@ -1,66 +1,72 @@
 <div class="example-container mat-elevation-z8">
-    <div class="example-header">
-      <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-      </mat-form-field>
-    </div>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    
-      <!--- Note that these columns can be defined in any order.
-            The actual rendered columns are set as a property on the row definition" -->
-       <!-- Name Column -->
-       <ng-container matColumnDef="_id">
-        <th mat-header-cell *matHeaderCellDef> ID </th>
-        <td mat-cell *matCellDef="let element"> {{element._id}} </td>
-      </ng-container>
-    
+  <div class="example-header">
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+  </div>
+  <mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="_id">
+      <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span class="mobile-label">Name:</span>
+        {{element._id}}
+      </mat-cell>
+    </ng-container>
 
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef> Titel </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span class="mobile-label">Titel:</span>
+        {{element.title}}
+      </mat-cell>
+    </ng-container>
 
-      <!-- Name Column -->
-      <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef> Titel </th>
-        <td mat-cell *matCellDef="let element"> {{element.title}} </td>
-      </ng-container>
-    
-      <!-- Weight Column -->
-      <ng-container matColumnDef="categorie">
-        <th mat-header-cell *matHeaderCellDef> Kategorie </th>
-        <td mat-cell *matCellDef="let element"> {{element.categorie}} </td>
-      </ng-container>
-    
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="amount">
-        <th mat-header-cell *matHeaderCellDef> Betrag </th>
-        <td mat-cell *matCellDef="let element"> {{element.amount+' €'}} </td>
-      </ng-container>
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="date">
-          <th mat-header-cell *matHeaderCellDef> Datum </th>
-          <td mat-cell *matCellDef="let element"> {{element.date | date:'dd-MM-yyyy'}} </td>
-        </ng-container>
+    <ng-container matColumnDef="categorie">
+      <mat-header-cell *matHeaderCellDef> Kategorie </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span class="mobile-label">Kategorie:</span>
+        {{element.categorie}}
+      </mat-cell>
+    </ng-container>
 
-       <!-- actions -->
-       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>
-          <button mat-icon-button color="primary" (click)="addNew()">
-            <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
-          </button>
-        </th>
+    <ng-container matColumnDef="amount">
+      <mat-header-cell *matHeaderCellDef> Betrag </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span class="mobile-label">Betrag:</span>
+        {{element.amount+' €'}}
+      </mat-cell>
+    </ng-container>
 
-        <td mat-cell *matCellDef="let row; let i=index;">
-          <button mat-icon-button color="accent" (click)="deleteItem(row._id, row.title, row.categorie, row.amount, row.date)">
-            <mat-icon aria-label="Delete">delete</mat-icon>
-          </button>
-          <button mat-icon-button color="accent" (click)="startEdit(row._id, row.title, row.categorie, row.amount, row.date)">
-            <mat-icon aria-label="Edit">edit</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-  
+    <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef> Datum </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span class="mobile-label">Datum:</span>
+        {{element.date | date:'dd-MM-yyyy'}}
+      </mat-cell>
+    </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayColums"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayColums;"></tr>
-  
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>
+        <button mat-icon-button color="primary" (click)="addNew()">
+          <mat-icon aria-label="Add">add</mat-icon>
+        </button>
+      </mat-header-cell>
 
-    </table>
-    </div>
+      <mat-cell *matCellDef="let row; let i=index;">
+        <button mat-icon-button color="accent"
+          (click)="deleteItem(row._id, row.title, row.categorie, row.amount, row.date)">
+          <mat-icon aria-label="Delete">delete</mat-icon>
+        </button>
+        <button mat-icon-button color="accent"
+          (click)="startEdit(row._id, row.title, row.categorie, row.amount, row.date)">
+          <mat-icon aria-label="Edit">edit</mat-icon>
+        </button>
+        <button class="mobile-addSymbol" mat-icon-button color="primary" (click)="addNew()">
+          <mat-icon aria-label="Add">add</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayColums"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayColums;"></mat-row>
+  </mat-table>
+</div>
